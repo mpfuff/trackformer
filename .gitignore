@@ -20,3 +20,4 @@ not_tracked_dir/
 *.egg-info
 build
 dist
+/.idea/
