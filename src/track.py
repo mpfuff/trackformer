@@ -9,7 +9,8 @@ import numpy as np
 import sacred
 import torch
 import tqdm
-import yaml
+# import yaml
+from sacred.optional import yaml
 from torch.utils.data import DataLoader
 
 from trackformer.datasets.tracking import TrackDatasetFactory

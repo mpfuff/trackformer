@@ -2,3 +2,6 @@
 
 motmetrics==1.2.0
 
+sacred==0.8.1
+
+MultiScaleDeformableAttention
