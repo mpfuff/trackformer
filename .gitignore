@@ -21,3 +21,4 @@ not_tracked_dir/
 build
 dist
 /.idea/
+/src/trackformer/models/ops/temp.macosx-11.0-arm64-3.8/
