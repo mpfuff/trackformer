@@ -43,6 +43,10 @@ print("import 4")
 
 torch.cuda.empty_cache()
 
+import gc
+# del variables
+gc.collect()
+
 def train(args: Namespace) -> None:
     print(args)
 

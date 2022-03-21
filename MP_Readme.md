@@ -1,6 +1,6 @@
 * get cuda version: nvcc --version
 
-## PYthon 3.7 Environment
+## Python 3.7 Environment
 conda create --name mp_trackf_p37 --clone mxnet_p37 \
 conda activate mp_trackf_p37 \
 pip install torch==1.5.1 torchvision==0.6.1 \
@@ -15,6 +15,9 @@ aiobotocore 1.3.0 requires botocore<1.20.50,>=1.20.49, but you have botocore 1.2
 ```
 pip3 install -U 'git+https://github.com/timmeinhardt/cocoapi.git#subdirectory=PythonAPI' \
 python src/trackformer/models/ops/setup.py build --build-base=src/trackformer/models/ops/ install \
+
+pip install visdom
+
 
 ### Training
 python src/train.py with \
