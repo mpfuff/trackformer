@@ -20,8 +20,9 @@ print("import 2a")
 from trackformer.datasets import build_dataset
 print("import 2b")
 from trackformer.engine import evaluate, train_one_epoch
-from trackformer.models import build_model
 print("import 2c")
+from trackformer.models import build_model
+print("import 2d")
 from trackformer.util.misc import nested_dict_to_namespace
 from trackformer.util.plot_utils import get_vis_win_names
 from trackformer.vis import build_visualizers
