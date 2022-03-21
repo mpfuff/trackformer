@@ -6,11 +6,11 @@ out_path = "/Users/matthias/projects/ml/vision/detection/tracking/data/cyclist_m
 out_path = in_path
 
 # in_file = "cyc_val.json"
-# out_file = "cyc_mod_val.json"
+# out_file = "val.json"
 # seq_length = 886
 
 in_file = "cyc_train.json"
-out_file = "cyc_mod_train.json"
+out_file = "train.json"
 seq_length = 885
 
 in_file_path = in_path + in_file
