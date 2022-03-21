@@ -23,7 +23,7 @@ with open(in_file_path, 'r') as f:
     images = data['images']
     for img in images:
         img["seq_length"] = seq_length
-        img["first_frame_image_id"] = 0
+        img["first_frame_image_id"] = 887
 
     # f.seek(0)        # <--- should reset file position to the beginning.
     # json.dump(data, f, indent=4)

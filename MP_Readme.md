@@ -47,6 +47,8 @@ epochs=20 \
 scp -r -i ~/.ssh/mampf.pem /Users/matthias/projects/ml/vision/detection/tracking/data/cyclist ubuntu@18.198.208.89:/home/ubuntu/projects/pytorch/tracking/data
 
 
+/home/ubuntu/projects/pytorch/tracking/trackformer/mp_scripts/python
+
 
 
 
