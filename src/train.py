@@ -1,17 +1,20 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
+print("starting")
+
 import datetime
 import os
 import random
 import time
 from argparse import Namespace
 from pathlib import Path
-
+print("import 1")
 import numpy as np
 import sacred
 import torch
 import yaml
 from torch.utils.data import DataLoader, DistributedSampler
-
+print("import 2")
 import trackformer.util.misc as utils
 from trackformer.datasets import build_dataset
 from trackformer.engine import evaluate, train_one_epoch
@@ -19,7 +22,7 @@ from trackformer.models import build_model
 from trackformer.util.misc import nested_dict_to_namespace
 from trackformer.util.plot_utils import get_vis_win_names
 from trackformer.vis import build_visualizers
-
+print("import 3")
 ex = sacred.Experiment('train')
 ex.add_config('cfgs/train.yaml')
 ex.add_named_config('deformable', 'cfgs/train_deformable.yaml')
@@ -32,6 +35,7 @@ ex.add_named_config('coco_person_masks', 'cfgs/train_coco_person_masks.yaml')
 ex.add_named_config('full_res', 'cfgs/train_full_res.yaml')
 ex.add_named_config('focal_loss', 'cfgs/train_focal_loss.yaml')
 
+print("import 4")
 
 def train(args: Namespace) -> None:
     print(args)
@@ -329,8 +333,10 @@ def load_config(_config, _run):
 
 
 if __name__ == '__main__':
+    print("running main")
     # TODO: hierachical Namespacing for nested dict
     config = ex.run_commandline().config
     args = nested_dict_to_namespace(config)
     # args.train = Namespace(**config['train'])
+    print(args)
     train(args)
