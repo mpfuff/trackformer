@@ -6,13 +6,13 @@ in_path = "/home/ubuntu/projects/pytorch/tracking/data/cyclist/annotations/"
 out_path = "/home/ubuntu/projects/pytorch/tracking/data/cyclist_mod/annotations/"
 out_path = in_path
 
-# in_file = "cyc_val.json"
-# out_file = "val.json"
-# seq_length = 886
+in_file = "cyc_val.json"
+out_file = "val.json"
+seq_length = 886
 
-in_file = "cyc_train.json"
-out_file = "train.json"
-seq_length = 885
+# in_file = "cyc_train.json"
+# out_file = "train.json"
+# seq_length = 885
 
 in_file_path = in_path + in_file
 out_file_path = out_path + in_file
