@@ -32,6 +32,7 @@ with open(in_file_path, 'r') as f:
         img["id"] = img["id"] - images_base_num
         img["prev_image_id"] = img["prev_image_id"] - images_base_num
         img["next_image_id"] = img["next_image_id"] - images_base_num
+        img["frame_id"] = img["frame_id"] - images_base_num
 
 # write to new file
 out_file = os.path.join(os.path.dirname(out_path), out_file)

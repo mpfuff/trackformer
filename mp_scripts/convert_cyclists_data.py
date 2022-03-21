@@ -32,6 +32,7 @@ with open(in_file_path, 'r') as f:
         img["id"] = img["id"] - images_base_num
         img["prev_image_id"] = img["prev_image_id"] - images_base_num
         img["next_image_id"] = img["next_image_id"] - images_base_num
+        img["frame_id"] = img["frame_id"] - images_base_num
 
     # f.seek(0)        # <--- should reset file position to the beginning.
     # json.dump(data, f, indent=4)
