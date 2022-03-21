@@ -1,5 +1,6 @@
 import os, json
 
+images_base_num = 887
 
 in_path = "/Users/matthias/projects/ml/vision/detection/tracking/data/cyclist/annotations/"
 out_path = "/Users/matthias/projects/ml/vision/detection/tracking/data/cyclist_mod/annotations/"
@@ -20,10 +21,17 @@ out_file_path = out_path + in_file
 with open(in_file_path, 'r') as f:
     data = json.load(f)
     # data['id_man'] = 134 # <--- add `id` value.
+    annotations = data['annotations']
+    for ann in annotations:
+        ann["image_id"] = ann["image_id"] - images_base_num
+
     images = data['images']
     for img in images:
         img["seq_length"] = seq_length
-        img["first_frame_image_id"] = 887
+        img["first_frame_image_id"] = 0
+        img["id"] = img["id"] - images_base_num
+        img["prev_image_id"] = img["prev_image_id"] - images_base_num
+        img["next_image_id"] = img["next_image_id"] - images_base_num
 
     # f.seek(0)        # <--- should reset file position to the beginning.
     # json.dump(data, f, indent=4)
