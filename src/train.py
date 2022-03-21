@@ -41,6 +41,8 @@ ex.add_named_config('focal_loss', 'cfgs/train_focal_loss.yaml')
 
 print("import 4")
 
+torch.cuda.empty_cache()
+
 def train(args: Namespace) -> None:
     print(args)
 
