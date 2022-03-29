@@ -99,9 +99,9 @@ class HungarianMatcher(nn.Module):
         #     box_cxcywh_to_xyxy(tgt_bbox))
 
         # mp version for cyclists
-        cost_giou = -generalized_box_iou(
-            box_xywh_to_xyxy(out_bbox),
-            box_xywh_to_xyxy(tgt_bbox))
+        out_box_conv = box_xywh_to_xyxy(out_bbox)
+        tgt_box_conv = box_xywh_to_xyxy(tgt_bbox)
+        cost_giou = -generalized_box_iou(out_box_conv, tgt_box_conv)
 
         # Final cost matrix
         cost_matrix = self.cost_bbox * cost_bbox \
