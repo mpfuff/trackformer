@@ -1,6 +1,6 @@
 import os, json
 
-from convert_cyclists_data import convert_all
+from mp_scripts.convert_util import convert_all
 
 images_base_num = 887
 
