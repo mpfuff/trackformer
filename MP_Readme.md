@@ -1,5 +1,8 @@
 * get cuda version: nvcc --version
 
+conda info --envs
+
+
 ## Python 3.7 Environment
 conda create --name mp_trackf_p37 --clone mxnet_p37 \
 conda activate mp_trackf_p37 \
@@ -16,7 +19,12 @@ aiobotocore 1.3.0 requires botocore<1.20.50,>=1.20.49, but you have botocore 1.2
 pip3 install -U 'git+https://github.com/timmeinhardt/cocoapi.git#subdirectory=PythonAPI' \
 python src/trackformer/models/ops/setup.py build --build-base=src/trackformer/models/ops/ install \
 
+## Visdom
 pip install visdom
+
+conda info --envs  
+conda activate mp_trackf_p37  
+visdom -port 8090
 
 
 ### Training
@@ -61,3 +69,31 @@ dataset_name=DEMO_1 \
 data_root_dir=data/snakeboard \
 output_dir=data/snakeboard \
 write_images=pretty
+
+
+with
+deformable
+tracking
+mot17
+resume=models/mot17_train_deformable_private_v2/checkpoint.pth
+output_dir=models/mot17_train_deformable_private_v3
+epochs=2
+
+with
+deformable
+tracking
+resume=models/mot17_train_deformable_private/checkpoint.pth
+output_dir=models/cyclists_dataset_train_deformable
+mot_path=/home/ubuntu/projects/pytorch/tracking/data/cyclist
+train_split=train
+val_split=val
+epochs=2
+
+
+## Monitoring
+
+- GPU  
+-- https://unix.stackexchange.com/questions/38560/gpu-usage-monitoring-cuda  
+-- htop  
+-- nvidia-smi  
+-- watch -d -n 0.5 nvidia-smi

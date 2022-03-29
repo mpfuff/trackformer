@@ -24,6 +24,9 @@ with open(in_file_path, 'r') as f:
     annotations = data['annotations']
     for ann in annotations:
         ann["image_id"] = ann["image_id"] - images_base_num
+        bbox = ann["bbox"]
+        for i, x in enumerate(bbox):
+            bbox[i] = int(bbox[i])
 
     images = data['images']
     for img in images:
