@@ -19,6 +19,11 @@ aiobotocore 1.3.0 requires botocore<1.20.50,>=1.20.49, but you have botocore 1.2
 pip3 install -U 'git+https://github.com/timmeinhardt/cocoapi.git#subdirectory=PythonAPI' \
 python src/trackformer/models/ops/setup.py build --build-base=src/trackformer/models/ops/ install \
 
+## SSH
+
+/home/ubuntu/projects/pytorch/tracking/trackformer/mp_scripts
+
+
 ## Visdom
 pip install visdom
 

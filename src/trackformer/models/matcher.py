@@ -7,7 +7,7 @@ import torch
 from scipy.optimize import linear_sum_assignment
 from torch import nn
 
-from ..util.box_ops import box_cxcywh_to_xyxy, generalized_box_iou
+from ..util.box_ops import box_cxcywh_to_xyxy, generalized_box_iou, box_xywh_to_xyxy
 
 
 class HungarianMatcher(nn.Module):
@@ -93,9 +93,15 @@ class HungarianMatcher(nn.Module):
         cost_bbox = torch.cdist(out_bbox, tgt_bbox, p=1)
 
         # Compute the giou cost betwen boxes
+        # original for mot17
+        # cost_giou = -generalized_box_iou(
+        #     box_cxcywh_to_xyxy(out_bbox),
+        #     box_cxcywh_to_xyxy(tgt_bbox))
+
+        # mp version for cyclists
         cost_giou = -generalized_box_iou(
-            box_cxcywh_to_xyxy(out_bbox),
-            box_cxcywh_to_xyxy(tgt_bbox))
+            box_xywh_to_xyxy(out_bbox),
+            box_xywh_to_xyxy(tgt_bbox))
 
         # Final cost matrix
         cost_matrix = self.cost_bbox * cost_bbox \
