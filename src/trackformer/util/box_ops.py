@@ -22,7 +22,13 @@ def box_xyxy_to_cxcywh(x):
 # added by mp
 def box_xywh_to_xyxy(x):
     x0, y0, w, h = x.unbind(-1)
-    b = [x0, y0, (x0 + w), (y0 + h)]
+    x1 = (x0 + w)
+    y1 = (y0 + h)
+    if x1 < x0:
+        x1 = x0
+    if y1 < y0:
+        y1 = y0
+    b = [x0, y0, x1, y1]
     return torch.stack(b, dim=-1)
 
 
@@ -54,7 +60,7 @@ def generalized_box_iou(boxes1, boxes2):
     """
     # degenerate boxes gives inf / nan results
     # so do an early check
-    # mpmpmp assert (boxes1[:, 2:] >= boxes1[:, :2]).all()
+    assert (boxes1[:, 2:] >= boxes1[:, :2]).all()
     assert (boxes2[:, 2:] >= boxes2[:, :2]).all()
     iou, union = box_iou(boxes1, boxes2)
 

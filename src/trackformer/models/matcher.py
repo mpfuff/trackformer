@@ -100,6 +100,7 @@ class HungarianMatcher(nn.Module):
 
         # mp version for cyclists
         out_box_conv = box_xywh_to_xyxy(out_bbox)
+
         tgt_box_conv = box_xywh_to_xyxy(tgt_bbox)
         cost_giou = -generalized_box_iou(out_box_conv, tgt_box_conv)
 
