@@ -2,9 +2,9 @@ import os, json
 
 images_base_num = 887
 
-in_path = "/Users/matthias/projects/ml/vision/detection/tracking/data/cyclist/annotations/"
-out_path = "/Users/matthias/projects/ml/vision/detection/tracking/data/cyclist_mod/annotations/"
-out_path = in_path
+input_path = "/Users/matthias/projects/ml/vision/detection/tracking/data/cyclist/annotations/"
+output_path = "/Users/matthias/projects/ml/vision/detection/tracking/data/cyclist_mod/annotations/"
+output_path = input_path
 
 
 def convert_files(in_path, out_path, in_file: str, out_file: str, seq_length: int):
@@ -57,4 +57,4 @@ def convert_all(in_path, out_path):
         convert_files(in_path, out_path, **f)
 
 
-convert_all(in_path, out_path)
+convert_all(input_path, output_path)
