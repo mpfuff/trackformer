@@ -24,9 +24,12 @@ def box_xywh_to_xyxy(x):
     x0, y0, w, h = x.unbind(-1)
     x1 = (x0 + w)
     y1 = (y0 + h)
+    # print("pre", x0[0], y0[0], x1[0], y1[0])
 
     x1 = torch.max(x0, x1)
     y1 = torch.max(y0, y1)
+
+    # print("after", x0[0], y0[0], x1[0], y1[0])
 
     b = [x0, y0, x1, y1]
     return torch.stack(b, dim=-1)

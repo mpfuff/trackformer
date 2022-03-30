@@ -43,6 +43,7 @@ output_dir=models/custom_dataset_train_deformable \
 mot_path=/home/ubuntu/projects/pytorch/tracking/data/cyclist \
 train_split=train \
 val_split=val \
+no_vis=True \
 epochs=2 \
 
 python src/train.py with \
