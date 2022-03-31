@@ -24,6 +24,7 @@ def box_cxcywh_to_xyxy_mp(x):
     b = [x0, y0, x1, y1]
     res = torch.stack(b, dim=-1)
     # print(res.type())
+    print("cxcywh", res.shape)
     if torch.isnan(res).any():
         # print(x)
         # print(x_c, y_c, w, h )
@@ -34,8 +35,13 @@ def box_cxcywh_to_xyxy_mp(x):
         print(res)
         # res[:, :2] = torch.ones(1, 2, device=torch.device('cuda')) * 0.4
         # res[:, 2:] = torch.ones(1, 2, device=torch.device('cuda')) * 0.6
-        res[:, :2] =  0.4
-        res[:, 2:] =  0.6
+        # res[:, :2] =  0.4
+        # res[:, 2:] =  0.6
+        # res =  res[0:1,:]
+        res[:, 0] = 0.6866
+        res[:, 1] = 0.5545
+        res[:, 2] = 0.8551
+        res[:, 3] = 0.8008
         print(res.shape)
         print(res.type())
         print(res)

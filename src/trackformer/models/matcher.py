@@ -100,8 +100,8 @@ class HungarianMatcher(nn.Module):
 
         # mp version for cyclists
         out_box_conv = box_cxcywh_to_xyxy_mp(out_bbox)
-
         tgt_box_conv = box_xywh_to_xyxy(tgt_bbox)
+
         cost_giou = -generalized_box_iou(out_box_conv, tgt_box_conv)
 
         # Final cost matrix
@@ -109,6 +109,10 @@ class HungarianMatcher(nn.Module):
             + self.cost_class * cost_class \
             + self.cost_giou * cost_giou
         cost_matrix = cost_matrix.view(batch_size, num_queries, -1).cpu()
+
+        print("cost_matrix.shape", cost_matrix.shape)
+        if torch.isnan(cost_matrix).any():
+            cost_matrix[:,:,:] = 1.0
 
         sizes = [len(v["boxes"]) for v in targets]
 
@@ -128,8 +132,19 @@ class HungarianMatcher(nn.Module):
                 elif mask_value.item() == -1:
                     cost_matrix[i, j] = np.inf
 
-        indices = [linear_sum_assignment(c[i])
-                   for i, c in enumerate(cost_matrix.split(sizes, -1))]
+        # orig
+        # indices = [linear_sum_assignment(c[i])
+        #            for i, c in enumerate(cost_matrix.split(sizes, -1))]
+
+        indices = []
+        for i, c in enumerate(cost_matrix.split(sizes, -1)):
+            if np.any(np.isneginf(np.asarray(c[i])) | np.isnan(np.asarray(c[i]))):
+                print(np.asarray(c[i]))
+            else:
+                lin_ass = linear_sum_assignment(c[i])
+                indices.append(lin_ass)
+
+
 
         return [(torch.as_tensor(i, dtype=torch.int64), torch.as_tensor(j, dtype=torch.int64))
                 for i, j in indices]
