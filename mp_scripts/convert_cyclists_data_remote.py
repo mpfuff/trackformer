@@ -1,6 +1,6 @@
 import os, json
 
-from mp_scripts.convert_util import convert_all
+from convert_util import convert_all
 
 images_base_num = 887
 

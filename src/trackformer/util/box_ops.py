@@ -13,11 +13,48 @@ def box_cxcywh_to_xyxy(x):
     return torch.stack(b, dim=-1)
 
 
+def box_cxcywh_to_xyxy_mp(x):
+    x_c, y_c, w, h = x.unbind(-1)
+    x0 = (x_c - 0.5 * w)
+    y0 = (y_c - 0.5 * h)
+    x1 = (x_c + 0.5 * w)
+    y1 = (y_c + 0.5 * h)
+    x1 = torch.max(x0, x1)
+    y1 = torch.max(y0, y1)
+    b = [x0, y0, x1, y1]
+    res = torch.stack(b, dim=-1)
+    # print(res.type())
+    if torch.isnan(res).any():
+        # print(x)
+        # print(x_c, y_c, w, h )
+        # print(x0, y0, x1, y1)
+        # print(b)
+        print(res.shape)
+        print(res.type())
+        print(res)
+        # res[:, :2] = torch.ones(1, 2, device=torch.device('cuda')) * 0.4
+        # res[:, 2:] = torch.ones(1, 2, device=torch.device('cuda')) * 0.6
+        res[:, :2] =  0.4
+        res[:, 2:] =  0.6
+        print(res.shape)
+        print(res.type())
+        print(res)
+        # x0 = torch.zeros(1, device=torch.device('cuda'))
+        # y0 = torch.zeros(1, device=torch.device('cuda'))
+        # x1 = torch.zeros(1, device=torch.device('cuda'))
+        # y1 = torch.zeros(1, device=torch.device('cuda'))
+        # b = [x0, y0, x1, y1]
+        # res = torch.stack(b, dim=-1)
+
+    return res
+
+
 def box_xyxy_to_cxcywh(x):
     x0, y0, x1, y1 = x.unbind(-1)
     b = [(x0 + x1) / 2, (y0 + y1) / 2,
          (x1 - x0), (y1 - y0)]
     return torch.stack(b, dim=-1)
+
 
 # added by mp
 def box_xywh_to_xyxy(x):
@@ -63,6 +100,10 @@ def generalized_box_iou(boxes1, boxes2):
     """
     # degenerate boxes gives inf / nan results
     # so do an early check
+    print("generalized_box_iou")
+    print(boxes1.shape)
+    print(boxes1[0])
+
     assert (boxes1[:, 2:] >= boxes1[:, :2]).all()
     assert (boxes2[:, 2:] >= boxes2[:, :2]).all()
     iou, union = box_iou(boxes1, boxes2)

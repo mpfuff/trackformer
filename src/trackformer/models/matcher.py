@@ -7,7 +7,7 @@ import torch
 from scipy.optimize import linear_sum_assignment
 from torch import nn
 
-from ..util.box_ops import box_cxcywh_to_xyxy, generalized_box_iou, box_xywh_to_xyxy
+from ..util.box_ops import box_cxcywh_to_xyxy, generalized_box_iou, box_xywh_to_xyxy, box_cxcywh_to_xyxy_mp
 
 
 class HungarianMatcher(nn.Module):
@@ -99,7 +99,7 @@ class HungarianMatcher(nn.Module):
         #     box_cxcywh_to_xyxy(tgt_bbox))
 
         # mp version for cyclists
-        out_box_conv = box_xywh_to_xyxy(out_bbox)
+        out_box_conv = box_cxcywh_to_xyxy_mp(out_bbox)
 
         tgt_box_conv = box_xywh_to_xyxy(tgt_bbox)
         cost_giou = -generalized_box_iou(out_box_conv, tgt_box_conv)
