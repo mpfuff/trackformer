@@ -92,6 +92,8 @@ class MOT(CocoDetection):
         img, target = self._norm_transforms(img, target)
 
         if self._prev_frame:
+            if idx == 713:
+                print("idx", idx)
             frame_id = self.coco.imgs[idx]['frame_id']
 
             # first frame has no previous frame

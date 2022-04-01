@@ -110,7 +110,7 @@ class HungarianMatcher(nn.Module):
             + self.cost_giou * cost_giou
         cost_matrix = cost_matrix.view(batch_size, num_queries, -1).cpu()
 
-        print("cost_matrix.shape", cost_matrix.shape)
+        # print("cost_matrix.shape", cost_matrix.shape)
         if torch.isnan(cost_matrix).any():
             cost_matrix[:,:,:] = 1.0
 

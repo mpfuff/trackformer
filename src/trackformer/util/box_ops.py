@@ -24,7 +24,7 @@ def box_cxcywh_to_xyxy_mp(x):
     b = [x0, y0, x1, y1]
     res = torch.stack(b, dim=-1)
     # print(res.type())
-    print("cxcywh", res.shape)
+    # print("cxcywh", res.shape)
     if torch.isnan(res).any():
         # print(x)
         # print(x_c, y_c, w, h )
@@ -106,9 +106,9 @@ def generalized_box_iou(boxes1, boxes2):
     """
     # degenerate boxes gives inf / nan results
     # so do an early check
-    print("generalized_box_iou")
-    print(boxes1.shape)
-    print(boxes1[0])
+    # print("generalized_box_iou")
+    # print(boxes1.shape)
+    # print(boxes1[0])
 
     assert (boxes1[:, 2:] >= boxes1[:, :2]).all()
     assert (boxes2[:, 2:] >= boxes2[:, :2]).all()

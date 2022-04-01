@@ -120,6 +120,10 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module, postproc
         loss_value = losses_reduced_scaled.item()
 
         if not math.isfinite(loss_value):
+            losses.data = (torch.ones(1, device=torch.device('cuda')) * 100).squeeze(0)
+            loss_value = losses.item()
+
+        if not math.isfinite(loss_value):
             print(f"Loss is {loss_value}, stopping training")
             print(loss_dict_reduced)
             sys.exit(1)
