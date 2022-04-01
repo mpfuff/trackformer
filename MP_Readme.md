@@ -70,6 +70,14 @@ scp -r -i ~/.ssh/mampf.pem /Users/matthias/projects/ml/vision/detection/tracking
 
 
 
+python src/track_cyclists.py with \
+dataset_name=DEMO \
+data_root_dir=/home/ubuntu/projects/pytorch/tracking/data/cyclist/val/test \
+output_dir=data/cycl \
+write_images=pretty
+
+
+
 python src/track.py with \
 dataset_name=DEMO_1 \
 data_root_dir=data/snakeboard \
@@ -85,16 +93,19 @@ resume=models/mot17_train_deformable_private_v2/checkpoint.pth
 output_dir=models/mot17_train_deformable_private_v3
 epochs=2
 
+- actual run config:  
 with
 deformable
 tracking
+mot17
 resume=models/mot17_train_deformable_private/checkpoint.pth
 output_dir=models/cyclists_dataset_train_deformable
 mot_path=/home/ubuntu/projects/pytorch/tracking/data/cyclist
 train_split=train
 val_split=val
-epochs=2
-
+epochs=10
+val_interval=2
+tracking_eval=False
 
 ## Monitoring
 

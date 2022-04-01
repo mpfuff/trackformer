@@ -288,8 +288,25 @@ def train(args: Namespace) -> None:
 
         checkpoint_paths = [output_dir / 'checkpoint.pth']
 
+        # MODEL SAVING
+        if args.output_dir:
+            if args.save_model_interval and not epoch % args.save_model_interval:
+                checkpoint_paths.append(output_dir / f"checkpoint_epoch_{epoch}.pth")
+
+            for checkpoint_path in checkpoint_paths:
+                utils.save_on_master({
+                    'model': model_without_ddp.state_dict(),
+                    'optimizer': optimizer.state_dict(),
+                    'lr_scheduler': lr_scheduler.state_dict(),
+                    'epoch': epoch,
+                    'args': args,
+                    'vis_win_names': get_vis_win_names(visualizers),
+                    'best_val_stats': best_val_stats
+                }, checkpoint_path)
+
         # VAL
-        if epoch == 1 or not epoch % args.val_interval:
+        # mpmpmp if epoch == 1 or not epoch % args.val_interval:
+        if not epoch % args.val_interval:
             val_stats, _ = evaluate(
                 model, criterion, postprocessors, data_loader_val, device,
                 output_dir, visualizers['val'], args, epoch)
@@ -315,21 +332,6 @@ def train(args: Namespace) -> None:
                 if b_s == s:
                     checkpoint_paths.append(output_dir / f"checkpoint_best_{n}.pth")
 
-        # MODEL SAVING
-        if args.output_dir:
-            if args.save_model_interval and not epoch % args.save_model_interval:
-                checkpoint_paths.append(output_dir / f"checkpoint_epoch_{epoch}.pth")
-
-            for checkpoint_path in checkpoint_paths:
-                utils.save_on_master({
-                    'model': model_without_ddp.state_dict(),
-                    'optimizer': optimizer.state_dict(),
-                    'lr_scheduler': lr_scheduler.state_dict(),
-                    'epoch': epoch,
-                    'args': args,
-                    'vis_win_names': get_vis_win_names(visualizers),
-                    'best_val_stats': best_val_stats
-                }, checkpoint_path)
 
     total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
