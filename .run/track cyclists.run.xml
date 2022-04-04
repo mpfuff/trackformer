@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="train mp cyclists real-remote" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="track cyclists" type="PythonConfigurationType" factoryName="Python">
     <module name="trackformer" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
@@ -7,13 +7,13 @@
       <env name="PYTHONUNBUFFERED" value="1" />
     </envs>
     <option name="SDK_HOME" value="$PROJECT_DIR$/../../../../../python/miniforge3/envs/trackf_env/bin/python3" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <option name="IS_MODULE_SDK" value="true" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-    <option name="SCRIPT_NAME" value="/home/ubuntu/projects/pytorch/tracking/trackformer/src/train.py" />
-    <option name="PARAMETERS" value="with deformable tracking mot17 resume=models/mot17_train_deformable_private/checkpoint.pth output_dir=models/cyclists_dataset_train_deformable mot_path=/home/ubuntu/projects/pytorch/tracking/data/cyclist train_split=train val_split=val epochs=10 val_interval=2 tracking_eval=False" />
+    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/track_cyclists.py" />
+    <option name="PARAMETERS" value="with dataset_name=DEMO data_root_dir=data/cyclists_val output_dir=data/cyclists_val write_images=debug" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />

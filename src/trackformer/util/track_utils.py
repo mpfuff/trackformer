@@ -75,7 +75,7 @@ def rand_cmap(nlabels, type='bright', first_color_black=True, last_color_black=F
         print('Number of labels: ' + str(nlabels))
 
     # mpmpmp
-    nlabels = np.max(1, nlabels)
+    nlabels = max(1, nlabels)
 
     # Generate color map for bright colors, based on hsv
     if type == 'bright':

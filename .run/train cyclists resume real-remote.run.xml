@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="train cyclists resume real-remote" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="train mp cyclists resume real-remote" type="PythonConfigurationType" factoryName="Python">
     <module name="trackformer" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
@@ -13,7 +13,7 @@
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="/home/ubuntu/projects/pytorch/tracking/trackformer/src/train.py" />
-    <option name="PARAMETERS" value="with deformable tracking mot17 resume=models/cyclists_dataset_train_deformable/checkpoint.pth output_dir=models/cyclists_dataset_train_deformable_2 mot_path=/home/ubuntu/projects/pytorch/tracking/data/cyclist train_split=train val_split=val epochs=10 val_interval=2 tracking_eval=False" />
+    <option name="PARAMETERS" value="with deformable tracking mot17 resume=models/cyclists_dataset_train_deformable/checkpoint.pth output_dir=models/cyclists_dataset_train_deformable_2 mot_path=/home/ubuntu/projects/pytorch/tracking/data/cyclist train_split=train val_split=val epochs=30 val_interval=5 tracking_eval=False" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />
