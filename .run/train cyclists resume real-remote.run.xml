@@ -13,7 +13,7 @@
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="/home/ubuntu/projects/pytorch/tracking/trackformer/src/train.py" />
-    <option name="PARAMETERS" value="with deformable tracking mot17 resume=models/cyclists_dataset_train_deformable/checkpoint.pth output_dir=models/cyclists_dataset_train_deformable_2 mot_path=/home/ubuntu/projects/pytorch/tracking/data/cyclist train_split=train val_split=val epochs=30 val_interval=5 tracking_eval=False" />
+    <option name="PARAMETERS" value="with deformable tracking mot17 resume=models/cyclists_dataset_train_deformable_2/checkpoint.pth output_dir=models/cyclists_dataset_train_deformable_2 mot_path=/home/ubuntu/projects/pytorch/tracking/data/cyclist train_split=train val_split=val epochs=50 val_interval=5 tracking_eval=False" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />
