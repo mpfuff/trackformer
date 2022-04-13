@@ -2,7 +2,7 @@ output_dir: null
 verbose: false
 seed: 666
 
-obj_detect_checkpoint_file: models/cyclists_dataset_train_deformable_2/checkpoint.pth
+obj_detect_checkpoint_file: models/cyclists_dataset_train_deformable_3/checkpoint.pth
 
 interpolate: False
 # if available load tracking results and only evaluate
@@ -27,13 +27,13 @@ tracker_cfg:
     # [False, 'center_distance', 'min_iou_0_5']
     public_detections: False
     # score threshold for detections
-    detection_obj_score_thresh: 0.8
+    detection_obj_score_thresh: 0.96
     # score threshold for keeping the track alive
-    track_obj_score_thresh: 0.8
+    track_obj_score_thresh: 0.6
     # NMS threshold for detection
-    detection_nms_thresh: 0.8
+    detection_nms_thresh: 0.95
     # NMS theshold while tracking
-    track_nms_thresh: 0.8
+    track_nms_thresh: 0.9
     # motion model settings
     # How many timesteps inactive tracks are kept and cosidered for reid
     inactive_patience: -1

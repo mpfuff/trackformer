@@ -1,11 +1,11 @@
-lr: 0.0001
+lr: 0.000001
 lr_backbone_names: ['backbone.0']
-lr_backbone: 0.00001
+lr_backbone: 0.000001
 lr_linear_proj_names: ['reference_points', 'sampling_offsets']
 lr_linear_proj_mult: 0.1
-lr_track: 0.0001
+lr_track: 0.000001
 batch_size: 1
-weight_decay: 0.0001
+weight_decay: 0.00001
 epochs: 50
 lr_drop: 40
 # gradient clipping max norm
