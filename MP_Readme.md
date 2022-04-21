@@ -6,6 +6,11 @@ conda info --envs
 ## Python 3.7 Environment
 conda create --name mp_trackf_p37 --clone mxnet_p37 \
 conda activate mp_trackf_p37 \
+
+7P PC:
+- conda create --name mp_trackf_p37  python=3.7 \
+- source activate mp_trackf_p37 \
+
 pip install torch==1.5.1 torchvision==0.6.1 \
 pip3 install -r requirements.txt \
 
@@ -17,7 +22,7 @@ bokeh 2.4.2 requires typing-extensions>=3.10.0, but you have typing-extensions 3
 aiobotocore 1.3.0 requires botocore<1.20.50,>=1.20.49, but you have botocore 1.23.17 which is incompatible.
 ```
 pip3 install -U 'git+https://github.com/timmeinhardt/cocoapi.git#subdirectory=PythonAPI' \
-python src/trackformer/models/ops/setup.py build --build-base=src/trackformer/models/ops/ install \
+python src/trackformer/models/ops/setup.py build --build-base=src/trackformer/models/ops/ install
 
 ## SSH
 
