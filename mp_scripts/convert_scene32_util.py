@@ -47,13 +47,15 @@ def convert_files(in_path, out_path, in_file: str, out_file: str):
 
         for i, img in enumerate(images):
             old_img_id = img["id"]
-
+            num = i + 1
+            file_name = f"{num:06d}.jpg"
 
             for ann in annotations:
                 if ann["image_id"] == old_img_id:
                     ann["image_id"] = new_image_id
 
             img["id"] = new_image_id
+            img["file_name"] = file_name
             img["seq_length"] = seq_length
             img["first_frame_image_id"] = 0
             img["prev_image_id"] = new_image_id - 1

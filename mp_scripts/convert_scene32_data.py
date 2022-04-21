@@ -9,7 +9,7 @@ output_path = "/Users/matthias/projects/ml/vision/detection/tracking/data/scene3
 
 in_train = {
     "in_file": "coco_track.json",
-    "out_file": "scene32_track.json",
+    "out_file": "scene32.json",
 }
 
 files_list = [in_train, ]
