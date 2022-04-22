@@ -24,8 +24,6 @@ def rename_image_files(in_dir: str, out_dir: str):
     for i, one_image in enumerate(all_files_sorted):
         in_file_path = in_dir + one_image
         num = i + 1
-        if num > seq_length:
-            break
         num = f"{num:06d}"
         out_file_path = out_dir + num + ".jpg"
         # os.rename(in_file_path, out_file_path)
