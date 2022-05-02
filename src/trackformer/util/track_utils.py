@@ -187,8 +187,11 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
                 else:
                     if track_id not in traces:
                         traces[track_id] = []
-                    center = ((bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2)
-                    traces[track_id].append(center)
+                    # center = ((bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2)
+                    # traces[track_id].append(center)
+
+                    bottom = ((bbox[0] + bbox[2]) / 2, bbox[3])
+                    traces[track_id].append(bottom)
 
                     np_line = np.asarray(traces[track_id])
                     x = np_line[:,0]
