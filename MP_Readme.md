@@ -10,8 +10,26 @@ conda activate mp_trackf_p37 \
 7P PC:
 - conda create --name mp_trackf_p37  python=3.7 \
 - source activate mp_trackf_p37 \
+- conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
+- conda install pytorch torchvision torchaudio cudatoolkit -c pytorch
+- conda install cudatoolkit=10.0 -c pytorch
+- conda install cudatoolkit=10.2 -c pytorch
+- conda install cudatoolkit=11.3 -c pytorch
+- conda install cudatoolkit -c pytorch
+- conda uninstall cudatoolkit
+- conda install pytorch torchvision cudatoolkit  -c pytorch
+- pip install opencv-python==4.2.0.34
+- 
+-  conda install pytorch=1.9.1 torchvision=0.10.1 torchaudio=0.9.1 cudatoolkit=10.2 -c pytorch
 
+  cudatoolkit:   10.2.89-hfd86e86_1                        --> 11.0.221-h6bb024c_0        
+  pytorch:       1.9.1-py3.7_cuda10.2_cudnn7.6.5_0 pytorch --> 1.11.0-py3.7_cpu_0  pytorch
+  torchaudio:    0.9.1-py37                        pytorch --> 0.11.0-py37_cpu     pytorch
+  torchvision:   0.10.1-py37_cu102                 pytorch --> 0.12.0-py37_cpu     pytorch
+
+pip install 'torch<1.7'
 pip install torch==1.5.1 torchvision==0.6.1 \
+ \
 pip3 install -r requirements.txt \
 
 ```
@@ -115,6 +133,8 @@ tracking_eval=False
 ## Monitoring
 
 - GPU  
+-- cat /usr/local/cuda/version.txt  
+-- nvcc --version  
 -- https://unix.stackexchange.com/questions/38560/gpu-usage-monitoring-cuda  
 -- htop  
 -- nvidia-smi  

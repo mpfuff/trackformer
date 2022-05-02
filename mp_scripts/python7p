@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
 #source /home/ubuntu/anaconda3/etc/profile.d/conda.sh
-source activate mp_trackf_p37
+# source activate mp_trackf_p37
+source /lib/anaconda3/bin/activate mp_trackf_p37
 python "$@"

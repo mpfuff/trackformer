@@ -20,12 +20,17 @@ from trackformer.util.misc import nested_dict_to_namespace
 from trackformer.util.track_utils import (evaluate_mot_accums, get_mot_accum,
                                           interpolate_tracks, plot_sequence)
 
+from torch.utils.cpp_extension import CUDA_HOME
+
 mm.lap.default_solver = 'lap'
 
 ex = sacred.Experiment('track')
 ex.add_config('cfgs/track_cyclists.yaml')
 ex.add_named_config('reid', 'cfgs/track_reid.yaml')
 
+print("cuda available:", torch.cuda.is_available())
+# print("cuda version:", torch.cuda.__version__)
+print("CUDA_HOME:", CUDA_HOME)
 
 @ex.automain
 def main(seed, dataset_name, obj_detect_checkpoint_file, tracker_cfg,
