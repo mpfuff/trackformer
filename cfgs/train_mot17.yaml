@@ -1,8 +1,8 @@
 dataset: mot
 train_split: mot17_train_coco
 val_split: mot17_train_coco
-lr: 0.0000001
-lr_backbone: 0.00000001
+lr: 0.000001
+lr_backbone: 0.0000001
 
 epochs: 20
 lr_drop: 20
