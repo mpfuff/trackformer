@@ -17,6 +17,7 @@ import tqdm
 from cycler import cycler as cy
 from matplotlib import colors
 from scipy.interpolate import interp1d
+from scipy.optimize import curve_fit
 
 matplotlib.use('Agg')
 
@@ -125,6 +126,14 @@ def rand_cmap(nlabels, type='bright', first_color_black=True, last_color_black=F
     return random_colormap
 
 
+def objective_5(x, a, b, c, d, e, f):
+    return (a * x) + (b * x ** 2) + (c * x ** 3) + (d * x ** 4) + (e * x ** 5) + f
+
+
+def objective_3(x, a, b, c, d):
+    return (a * x) + (b * x ** 2) + (c * x ** 3) + d
+
+
 def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attention_maps):
     """Plots a whole sequence
 
@@ -194,10 +203,29 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
                     traces[track_id].append(bottom)
 
                     np_line = np.asarray(traces[track_id])
-                    x = np_line[:,0]
-                    y = np_line[:,1]
+                    x = np_line[:, 0]
+                    y = np_line[:, 1]
 
-                    ax.add_line(plt.Line2D(x,y,  linewidth=2, color=cmap(track_id)))
+                    degree_of_polynom = 3
+                    # last_to_fit > Degree of Polynom
+                    last_to_fit = 40
+                    if len(x) > degree_of_polynom:
+                        # https://machinelearningmastery.com/curve-fitting-with-python/
+                        to_fit = min(len(x), last_to_fit)
+                        last_x = x[-to_fit:]
+                        last_y = y[-to_fit:]
+                        popt, _ = curve_fit(objective_3, last_x, last_y)
+                        # a, b, c, d, e, f = popt
+                        a, b, c, d = popt
+                        last_y = objective_3(last_x, a, b, c, d)
+                        y[-to_fit:] = last_y
+                        traces[track_id] = traces[track_id][:-to_fit]
+                        for lx, ly in zip(last_x, last_y):
+                            traces[track_id].append((lx, ly))
+
+                        # traces[track_id][-to_fit:, 1] = last_y
+
+                    ax.add_line(plt.Line2D(x, y, linewidth=2, color=cmap(track_id)))
 
                     ax.add_patch(
                         plt.Rectangle(
