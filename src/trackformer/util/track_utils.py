@@ -223,7 +223,6 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
                         for lx, ly in zip(last_x, last_y):
                             traces[track_id].append((lx, ly))
 
-                        # traces[track_id][-to_fit:, 1] = last_y
 
                     ax.add_line(plt.Line2D(x, y, linewidth=2, color=cmap(track_id)))
 

@@ -1,6 +1,4 @@
-import os, json
-
-from mp_scripts.convert_scene32_util import convert_scene32
+from mp_scripts.converter.scene32.convert_scene32_util import convert_scene32
 
 
 input_path = "/home/ubuntu/projects/pytorch/tracking/data/scene32/annotations/"
