@@ -29,6 +29,7 @@ def convert_files(in_path, out_path, in_file: str, out_file: str):
 
             ann['category_id'] = ann['category_id'] + 1
             ann['track_id'] = ann['index']
+            ann['iscrowd'] = 0
             if ann['category_id'] == 1:
                 remaining_annotations.append(ann)
 
@@ -63,7 +64,7 @@ def convert_files(in_path, out_path, in_file: str, out_file: str):
                     ann["image_id"] = new_image_id
 
             img["id"] = new_image_id
-            img["file_name"] = file_name
+            # img["file_name"] = file_name
             img["seq_length"] = seq_length
             img["first_frame_image_id"] = 0
             img["prev_image_id"] = new_image_id - 1

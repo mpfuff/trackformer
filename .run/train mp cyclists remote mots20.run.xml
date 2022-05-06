@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="train mp cyclists remote mots20" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="train mp cyclists remote mots20" type="PythonConfigurationType" factoryName="Python" folderName="alt">
     <module name="trackformer" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />

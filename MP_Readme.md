@@ -126,6 +126,8 @@ tracking_eval=False
 
 ## Monitoring
 
+tcp://6.tcp.ngrok.io:11270 -> localhost:8090
+
 - GPU  
 -- cat /usr/local/cuda/version.txt  
 -- nvcc --version  
