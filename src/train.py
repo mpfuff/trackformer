@@ -128,8 +128,11 @@ def train(args: Namespace) -> None:
 
     optimizer = torch.optim.AdamW(param_dicts, lr=args.lr,
                                   weight_decay=args.weight_decay)
+    lr_drop = [args.lr_drop]
+    if isinstance(args.lr_drop, list):
+        lr_drop = args.lr_drop
 
-    lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, [args.lr_drop])
+    lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, lr_drop)
 
     dataset_train = build_dataset(split='train', args=args)
     dataset_val = build_dataset(split='val', args=args)

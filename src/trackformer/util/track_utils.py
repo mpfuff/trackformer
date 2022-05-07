@@ -134,6 +134,10 @@ def objective_3(x, a, b, c, d):
     return (a * x) + (b * x ** 2) + (c * x ** 3) + d
 
 
+def objective_2(x, a, b, c):
+    return (a * x) + (b * x ** 2) + c
+
+
 def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attention_maps):
     """Plots a whole sequence
 
@@ -214,10 +218,10 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
                         to_fit = min(len(x), last_to_fit)
                         last_x = x[-to_fit:]
                         last_y = y[-to_fit:]
-                        popt, _ = curve_fit(objective_3, last_x, last_y)
+                        popt, _ = curve_fit(objective_2, last_x, last_y)
                         # a, b, c, d, e, f = popt
-                        a, b, c, d = popt
-                        last_y = objective_3(last_x, a, b, c, d)
+                        a, b, c = popt
+                        last_y = objective_2(last_x, a, b, c)
                         y[-to_fit:] = last_y
                         traces[track_id] = traces[track_id][:-to_fit]
                         for lx, ly in zip(last_x, last_y):
