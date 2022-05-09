@@ -34,7 +34,7 @@ print("CUDA_HOME:", CUDA_HOME)
 
 @ex.automain
 def main(seed, dataset_name, obj_detect_checkpoint_file, tracker_cfg,
-         write_images, output_dir, interpolate, verbose, load_results_dir,
+         write_images, plot_traces, output_dir, interpolate, verbose, load_results_dir,
          data_root_dir, generate_attention_maps, frame_range,
          _config, _log, _run, obj_detector_model=None):
     if write_images:
@@ -190,7 +190,7 @@ def main(seed, dataset_name, obj_detect_checkpoint_file, tracker_cfg,
             _log.info("PLOT SEQ")
             plot_sequence(
                 results, seq_loader, osp.join(output_dir, dataset_name, str(seq)),
-                write_images, generate_attention_maps)
+                write_images, generate_attention_maps, plot_traces)
 
     if time_total:
         _log.info(f"RUNTIME ALL SEQS (w/o EVAL or IMG WRITE): "
