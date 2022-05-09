@@ -190,6 +190,20 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
         if generate_attention_maps:
             attention_map_img = np.zeros((height, width, 4))
 
+        degree_of_polynom = 2
+        # last_to_fit > Degree of Polynom
+        last_to_fit = 40
+        min_frozen_length = 30
+
+        if plot_traces == 'freeze':
+            for tr_id, value in traces.items():
+                np_line = np.asarray(value['trace'])
+                if len(np_line) <= min_frozen_length:
+                    continue
+                x = np_line[:, 0]
+                y = np_line[:, 1]
+                ax.add_line(plt.Line2D(x, y, linewidth=2, color=value['cmap']))
+
         for track_id, track_data in tracks.items():
             if frame_id in track_data.keys():
                 bbox = track_data[frame_id]['bbox']
@@ -211,25 +225,10 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
                         bottom = ((bbox[0] + bbox[2]) / 2, bbox[3])
                         traces[track_id]['trace'].append(bottom)
 
-                        degree_of_polynom = 2
-                        # last_to_fit > Degree of Polynom
-                        last_to_fit = 20
-                        min_frozen_length = 120
-
                         if len(traces[track_id]['trace']) > degree_of_polynom:
                             # https://machinelearningmastery.com/curve-fitting-with-python/
                             plot_trace(ax, cmap, last_to_fit, traces, track_id)
 
-                        if plot_traces == 'freeze':
-                            for tr_id, value in traces.items():
-                                if tr_id == track_id:
-                                    continue
-                                np_line = np.asarray(value['trace'])
-                                if len(np_line) <= min_frozen_length:
-                                    continue
-                                x = np_line[:, 0]
-                                y = np_line[:, 1]
-                                ax.add_line(plt.Line2D(x, y, linewidth=2, color=value['cmap']))
 
                     ax.add_patch(
                         plt.Rectangle(
@@ -291,11 +290,12 @@ def plot_trace(ax, cmap, last_to_fit, traces, track_id):
     to_fit = min(len(x), last_to_fit)
     last_x = x[-to_fit:]
     last_y = y[-to_fit:]
-    popt, _ = curve_fit(objective_1, last_x, last_y)
+    popt, _ = curve_fit(objective_2, last_x, last_y)
     # a, b, c, d, e, f = popt
-    # a, b, c = popt
-    a, b = popt
-    last_y = objective_1(last_x, a, b)
+    # a, b = popt
+    a, b, c = popt
+    # last_y = objective_1(last_x, a, b)
+    last_y = objective_2(last_x, a, b, c)
     y[-to_fit:] = last_y
     traces[track_id]['trace'] = trace[:-to_fit]
     for lx, ly in zip(last_x, last_y):
