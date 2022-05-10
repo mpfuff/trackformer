@@ -4,6 +4,7 @@
 
 import os
 from collections import defaultdict
+from math import sqrt
 from os import path as osp
 
 import cv2
@@ -135,11 +136,19 @@ def objective_3(x, a, b, c, d):
 
 
 def objective_2(x, a, b, c):
-    return (a * x) + (b * x ** 2) + c
+    return (a * x) + (b * x ** 1.5) + c
+
+
+def objective_2a(x, a, b, c, d, e):
+    return (a * (x + d)) + (b * (x + e) ** 2) + c
 
 
 def objective_1(x, a, b):
     return (a * x) + b
+
+
+def objective_exp(x, a, b, c):
+    return a + b * np.exp(c * x)
 
 
 def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attention_maps, plot_traces=False):
@@ -190,21 +199,18 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
         if generate_attention_maps:
             attention_map_img = np.zeros((height, width, 4))
 
-        degree_of_polynom = 2
+        do_fit = True
+        degree_of_polynom = 5
         # last_to_fit > Degree of Polynom
         last_to_fit = 40
-        min_frozen_length = 30
+        min_frozen_length = 80
 
-        if plot_traces == 'freeze':
-            for tr_id, value in traces.items():
-                np_line = np.asarray(value['trace'])
-                if len(np_line) <= min_frozen_length:
-                    continue
-                x = np_line[:, 0]
-                y = np_line[:, 1]
-                ax.add_line(plt.Line2D(x, y, linewidth=2, color=value['cmap']))
+        diagonale = sqrt(height ** 2 + width ** 2)
+        dist_fract = diagonale * 0.05
 
         for track_id, track_data in tracks.items():
+            if len(list(track_data.keys())) < min_frozen_length:
+                continue
             if frame_id in track_data.keys():
                 bbox = track_data[frame_id]['bbox']
 
@@ -227,8 +233,18 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
 
                         if len(traces[track_id]['trace']) > degree_of_polynom:
                             # https://machinelearningmastery.com/curve-fitting-with-python/
-                            plot_trace(ax, cmap, last_to_fit, traces, track_id)
+                            plot_trace(ax, cmap, do_fit, traces, track_id, dist_fract)
 
+                        if plot_traces == 'freeze':
+                            for tr_id, value in traces.items():
+                                if tr_id == track_id:
+                                    continue
+                                np_line = np.asarray(value['trace'])
+                                if len(np_line) <= min_frozen_length:
+                                    continue
+                                x = np_line[:, 0]
+                                y = np_line[:, 1]
+                                ax.add_line(plt.Line2D(x, y, linewidth=2, color=value['cmap']))
 
                     ax.add_patch(
                         plt.Rectangle(
@@ -282,21 +298,41 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
         plt.close()
 
 
-def plot_trace(ax, cmap, last_to_fit, traces, track_id):
+def get_trace_length(np_line: np.array, dist_fract):
+    length = 0
+    num_sections = 0
+    x0, y0 = 0, 0
+    for i, (x, y) in enumerate(np_line):
+        if i > 0:
+            length += sqrt((x - x0) ** 2 + (y - y0) ** 2)
+            num_sections += 1
+        x0, y0 = x, y
+        if dist_fract < length:
+            break
+    return length, num_sections
+
+
+def plot_trace(ax, cmap, do_fit: bool, traces, track_id, dist_fract):
     trace = traces[track_id]['trace']
     np_line = np.asarray(trace)
+    length, num_sections = get_trace_length(np_line, dist_fract)
     x = np_line[:, 0]
     y = np_line[:, 1]
-    to_fit = min(len(x), last_to_fit)
+    to_fit = min(len(x), num_sections)
     last_x = x[-to_fit:]
     last_y = y[-to_fit:]
-    popt, _ = curve_fit(objective_2, last_x, last_y)
-    # a, b, c, d, e, f = popt
-    # a, b = popt
-    a, b, c = popt
-    # last_y = objective_1(last_x, a, b)
-    last_y = objective_2(last_x, a, b, c)
-    y[-to_fit:] = last_y
+    if do_fit:
+        popt, _ = curve_fit(objective_3, last_x, last_y)
+        # a, b, c, d, e, f = popt
+        # a, b = popt
+        # a, b, c = popt
+        a, b, c, d = popt
+        # a, b, c, d, e = popt
+        # last_y = objective_1(last_x, a, b)
+        last_y = objective_3(last_x, a, b, c, d)
+        # last_y = objective_2a(last_x, a, b, c, d, e)
+        y[-to_fit:] = last_y
+
     traces[track_id]['trace'] = trace[:-to_fit]
     for lx, ly in zip(last_x, last_y):
         traces[track_id]['trace'].append((lx, ly))
