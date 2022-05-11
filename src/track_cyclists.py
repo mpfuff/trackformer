@@ -25,7 +25,8 @@ from torch.utils.cpp_extension import CUDA_HOME
 mm.lap.default_solver = 'lap'
 
 ex = sacred.Experiment('track')
-ex.add_config('cfgs/track_cyclists.yaml')
+# ex.add_config('cfgs/track_cyclists.yaml')
+ex.add_config('cfgs/track_cyclists_amsterdam.yaml')
 ex.add_named_config('reid', 'cfgs/track_reid.yaml')
 
 print("cuda available:", torch.cuda.is_available())

@@ -203,14 +203,14 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
         degree_of_polynom = 5
         # last_to_fit > Degree of Polynom
         last_to_fit = 40
-        min_frozen_length = 80
+        # min_frozen_length = 80
 
         diagonale = sqrt(height ** 2 + width ** 2)
-        dist_fract = diagonale * 0.05
+        dist_fract = diagonale * 0.1
 
         for track_id, track_data in tracks.items():
-            if len(list(track_data.keys())) < min_frozen_length:
-                continue
+            # if len(list(track_data.keys())) < min_frozen_length:
+            #     continue
             if frame_id in track_data.keys():
                 bbox = track_data[frame_id]['bbox']
 
@@ -233,14 +233,16 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
 
                         if len(traces[track_id]['trace']) > degree_of_polynom:
                             # https://machinelearningmastery.com/curve-fitting-with-python/
-                            plot_trace(ax, cmap, do_fit, traces, track_id, dist_fract)
+                            plot_trace(ax, cmap, do_fit, traces, track_id, dist_fract, degree_of_polynom)
 
                         if plot_traces == 'freeze':
                             for tr_id, value in traces.items():
                                 if tr_id == track_id:
                                     continue
                                 np_line = np.asarray(value['trace'])
-                                if len(np_line) <= min_frozen_length:
+                                # if len(np_line) <= min_frozen_length:
+                                #     continue
+                                if get_total_trace_length(np_line) < dist_fract:
                                     continue
                                 x = np_line[:, 0]
                                 y = np_line[:, 1]
@@ -298,39 +300,71 @@ def plot_sequence(tracks, data_loader, output_dir, write_images, generate_attent
         plt.close()
 
 
+def get_total_trace_length(np_line: np.array):
+    x0 = np_line[0][0]
+    y0 = np_line[0][1]
+    x1 = np_line[-1][0]
+    y1 = np_line[-1][1]
+    length = sqrt((x0-x1)**2 + (y0-y1)**2)
+    return length
+
 def get_trace_length(np_line: np.array, dist_fract):
     length = 0
     num_sections = 0
     x0, y0 = 0, 0
-    for i, (x, y) in enumerate(np_line):
+    for i, (x, y) in enumerate(np_line[::-1]):
+        if i == 0:
+            x0, y0 = x, y
         if i > 0:
-            length += sqrt((x - x0) ** 2 + (y - y0) ** 2)
+            length = sqrt((x - x0) ** 2 + (y - y0) ** 2)
             num_sections += 1
-        x0, y0 = x, y
-        if dist_fract < length:
+        if length > dist_fract:
             break
     return length, num_sections
 
 
-def plot_trace(ax, cmap, do_fit: bool, traces, track_id, dist_fract):
+def plot_trace(ax, cmap, do_fit: bool, traces, track_id, dist_fract, degree_of_polynom):
+    use_moving_average = True
     trace = traces[track_id]['trace']
     np_line = np.asarray(trace)
-    length, num_sections = get_trace_length(np_line, dist_fract)
     x = np_line[:, 0]
     y = np_line[:, 1]
-    to_fit = min(len(x), num_sections)
+    length, num_sections = get_trace_length(np_line, dist_fract)
+    min_to_fit = max(degree_of_polynom, num_sections)
+    to_fit = min(len(x), min_to_fit)
     last_x = x[-to_fit:]
     last_y = y[-to_fit:]
     if do_fit:
-        popt, _ = curve_fit(objective_3, last_x, last_y)
-        # a, b, c, d, e, f = popt
-        # a, b = popt
-        # a, b, c = popt
-        a, b, c, d = popt
-        # a, b, c, d, e = popt
-        # last_y = objective_1(last_x, a, b)
-        last_y = objective_3(last_x, a, b, c, d)
-        # last_y = objective_2a(last_x, a, b, c, d, e)
+        if use_moving_average:
+            xs = np.arange(to_fit)
+            popt_x, _ = curve_fit(objective_1, xs, last_x)
+            a, b = popt_x
+            # a, b, c, d = popt_x
+            last_x = objective_1(xs, a, b)
+            # last_x = objective_3(xs, a, b, c, d)
+
+            popt_y, _ = curve_fit(objective_1, xs, last_y)
+            a, b = popt_y
+            # a, b, c, d = popt_y
+            last_y = objective_1(xs, a, b)
+            # last_y = objective_3(xs, a, b, c, d)
+
+            # sections = len(last_x)
+            # x_average = np.sum(last_x) / sections
+            # y_average = np.sum(last_y) / sections
+            # last_x[:] = x_average
+            # last_y[:] = y_average
+            x[-to_fit:] = last_x
+        else:
+            popt, _ = curve_fit(objective_3, last_x, last_y)
+            # a, b, c, d, e, f = popt
+            # a, b = popt
+            # a, b, c = popt
+            a, b, c, d = popt
+            # a, b, c, d, e = popt
+            # last_y = objective_1(last_x, a, b)
+            last_y = objective_3(last_x, a, b, c, d)
+            # last_y = objective_2a(last_x, a, b, c, d, e)
         y[-to_fit:] = last_y
 
     traces[track_id]['trace'] = trace[:-to_fit]
