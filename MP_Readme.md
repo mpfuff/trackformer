@@ -2,6 +2,12 @@
 
 conda info --envs
 
+conda==4.8.4 für Python 3.7 !
+==> WARNING: A newer version of conda exists. <==
+current version: 4.8.4  
+latest version: 4.13.0  
+conda update -n base -c defaults conda  
+(conda update  --force-reinstall  -n base -c defaults conda)
 
 ## Python 3.7 Environment
 conda create --name mp_trackf_p37 --clone mxnet_p37 \
@@ -136,3 +142,11 @@ tcp://6.tcp.ngrok.io:11270 -> localhost:8090
 -- nvidia-smi  
 -- nvidia-smi -L  
 -- watch -d -n 0.5 nvidia-smi
+
+# Animations, GIF, Video
+* Convert to gif  
+  convert  -delay 50 $(ls *.jpeg | sort -V) kreuzung1.gif
+
+* Convert to mp4  
+  ffmpeg -framerate 20 -pattern_type glob -i '*.jpg' -c:v libx264 -pix_fmt yuv420p short_2.mp4
+
